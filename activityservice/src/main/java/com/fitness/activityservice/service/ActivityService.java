@@ -27,6 +27,7 @@ public class ActivityService {
                 .build();
 
         Activity savedActivity = activityRepository.save(activity);
+        System.out.println("activity saved with Id :: " + savedActivity.getId());
         return mapToResponse(savedActivity);
     }
 
@@ -51,5 +52,11 @@ public class ActivityService {
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
+    }
+
+    public ActivityResponse getActivity(String activityId) {
+        return activityRepository.findById(activityId)
+                .map(this::mapToResponse)
+                .orElseThrow(() -> new RuntimeException("activity not found with Id :: " + activityId));
     }
 }
